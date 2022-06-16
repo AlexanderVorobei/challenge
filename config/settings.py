@@ -14,6 +14,9 @@ from pathlib import Path
 from django.urls import reverse_lazy
 from decouple import config, Csv
 from dj_database_url import parse as db_url
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -136,6 +139,8 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # Auth settings
 
 LOGIN_URL = reverse_lazy("login")
+LOGIN_REDIRECT_URL = reverse_lazy("/")
+LOGOUT_REDIRECT_URL = reverse_lazy("login")
 
 # Debug Toolbar settings
 

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Online service for generating CSV files with fake(dummy) data using Python and Django"/>
+    <meta name="author" content="amvorobei@gmail.com"/>
+    <title>{% block title %}{% endblock %}</title>
+    {% load static %}
+    <link rel="shortcut icon" href="{% static "favicon.ico" %}"/>
+    {% include "includes/links.html" %}
+    {% block head %}{% endblock %}
+    </head>
+    <body>
+      {% if user.is_authenticated %}
+        {% include 'includes/navbar.html' %}
+      {% endif %}
+      <div class="container">
+        {% include 'includes/errors.html' %}
+        {% block content %}{% endblock %}
+      </div>
+      {% include "includes/scripts.html" %}
+      {% block scripts %}{% endblock %}
+    </body>
+</html>

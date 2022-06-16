@@ -12,4 +12,4 @@ if [ -n "$DJANGO_SUPERUSER_USERNAME" ] && [ -n "$DJANGO_SUPERUSER_EMAIL" ] && [ 
     (python manage.py createsuperuser --no-input; exit 0)
 fi
 echo Run server
-python manage.py runserver 0.0.0.0:8000
+python gunicorn --bind 0.0.0.0:8000 --workers 1
