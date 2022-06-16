@@ -1,9 +1,10 @@
-<div class="d-flex justify-content-between alert-dismisible">
-  {% if messages %}
-    {% for message in messages %}
-      <div class="alert {% if message.tags %} alert-{{ message.tags }} m-1 p-2{% endif %}" role="alert">{{ message|safe }}</div>
-    {% endfor %}
-  {% endif %}
+{% if messages %}
+  {% for message in messages %}
+  <div class="alert alert-{{ message.tags }} alert-dismissible text-center" role="alert">
+    <strong>{% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Error{% else %}{{ message.tags|title }}{% endif %}!</strong> {{ message }}
+  </div>
+  {% endfor %}
+{% endif %}
 
   {% if form.errors %}
   <div class="alert alert-danger m-1 p-2" role="alert">
@@ -20,5 +21,4 @@
       {% endif %}
     {% endfor %}
   </div>
-</div>
-{% endif %}
+  {% endif %}
