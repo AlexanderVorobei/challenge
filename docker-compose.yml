@@ -38,7 +38,7 @@ services:
     depends_on:
       - db
 
-  celery:
+  worker:
     restart: always
     build: .
     command: celery -A config.celery.app worker -l info
