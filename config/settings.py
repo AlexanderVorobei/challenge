@@ -145,7 +145,7 @@ LOGOUT_REDIRECT_URL = reverse_lazy("login")
 MESSAGE_TAGS = {messages.ERROR: "danger"}
 
 # Celery stuff heroku
-CELERY_BROKER_URL = os.getenv("CLOUDAMQP_URL")
+CELERY_BROKER_URL = os.getenv("REDIS_URL")
 
 # Debug Toolbar settings
 if DEBUG:
