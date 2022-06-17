@@ -96,10 +96,10 @@ class ColumnGenerator:
     def generate(self, rows):
         names = [x["name"] for x in self.schema.columns.get("schema")]
         types = [x["type"] for x in self.schema.columns.get("schema")]
-        sep = self.schema.column_delimiter
-        yield sep.join(names) + "\n"
+        separator = self.schema.column_separator
+        yield separator.join(names) + "\n"
         for _ in range(rows):
-            yield sep.join(self[t] for t in types) + "\n"
+            yield separator.join(self[t] for t in types) + "\n"
 
 
 class DataSet(models.Model):
