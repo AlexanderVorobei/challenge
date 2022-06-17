@@ -3,7 +3,7 @@ echo Run django migrations
 python manage.py migrate || exit 0
 echo Collect staticfiles
 (python manage.py collectstatic --noinput --clear &&
-touch staticfiles/.gitignore && echo "*/" >> staticfiles/.gitignore; exit 0)
+touch staticfiles/.gitignore && echo "*" >> staticfiles/.gitignore; exit 0)
 
 exec "$@"
 
@@ -12,4 +12,4 @@ if [ -n "$DJANGO_SUPERUSER_USERNAME" ] && [ -n "$DJANGO_SUPERUSER_EMAIL" ] && [ 
     (python manage.py createsuperuser --no-input; exit 0)
 fi
 echo Run server
-python gunicorn --bind 0.0.0.0:8000 --workers 1
+gunicorn --bind 0.0.0.0:8000 config.wsgi:application --workers 1

@@ -4,11 +4,6 @@
 
 {% block title %}Edit Schema{% endblock %}
 
-{% block head %}
-  <link rel="stylesheet" href="{% static 'assets/css/schema.css' %}">
-{% endblock %}
-
-
 {% block content %}
   <form id="main" action="{{ request.path }}" method="POST">
     {% csrf_token %}

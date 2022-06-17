@@ -15,6 +15,14 @@ services:
     ports:
       - 127.0.0.1:${LOCAL_DB_PORT}:5432
 
+  redis:
+    image: redis:latest
+    restart: always
+    volumes:
+      - cache:/data
+    ports:
+      - 127.0.0.1:${REDIS_PORT}:6379
+
   web:
     build: .
     command: /usr/src/app/run.sh
@@ -29,15 +37,18 @@ services:
       - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
     depends_on:
       - db
-      - redis
 
-  redis:
-    image: redis:latest
+  celery:
     restart: always
-    volumes:
-      - cache:/data
-    ports:
-      - 127.0.0.1:${REDIS_PORT}:6379
+    build: .
+    command: celery -A app worker -l info
+    env_file: .env
+    environment:
+      - REDIS_URL=redis://redis:${REDIS_PORT}
+    depends_on:
+      - db
+      - redis
+      - web
 
 volumes:
   db_data:
