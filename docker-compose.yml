@@ -44,6 +44,7 @@ services:
     command: celery -A config.celery.app worker -l info
     env_file: .env
     environment:
+      - DEBUG=false
       - REDIS_URL=redis://redis:${REDIS_PORT}
     depends_on:
       - db
