@@ -14,14 +14,13 @@ class Schema(models.Model):
         verbose_name_plural = "schemas"
 
     class Delimiter(models.TextChoices):
-        COMMA = "comma ( , )"
-        SEMICOLON = "semicolon ( ; )"
-        COLON = "colon ( : )"
-        TAB = "tab (   )"
+        COMMA = ",", "comma ( , )"
+        SEMICOLON = ";", "semicolon ( ; )"
+        COLON = ":", "colon ( : )"
 
     class Quote(models.TextChoices):
-        DOUBLE_QUOTE = 'Double-quote ( " )'
-        SINGLE_QUOTE = "Single-quote ( ' )"
+        DOUBLE_QUOTE = '"', 'Double-quote ( " )'
+        SINGLE_QUOTE = "'", "Single-quote ( ' )"
 
     user = models.ForeignKey(User, on_delete=CASCADE)
     name = models.CharField(max_length=128)
@@ -137,4 +136,5 @@ class DataSet(models.Model):
                 ),
                 ContentFile(buffer.getbuffer()),
             )
+            self.status = self.Status.READY
         return True
