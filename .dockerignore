@@ -75,6 +75,7 @@ coverage.xml
 .hypothesis/
 .pytest_cache/
 cover/
+tox.ini
 
 # Translations
 *.mo
@@ -87,6 +88,7 @@ db.sqlite3
 db.sqlite3-journal
 /staticfiles/
 /media/
+.DB_Store
 
 # Sphinx documentation
 docs/_build/
@@ -117,3 +119,5 @@ venv.bak/
 */*.swp
 */*/*.swp
 */*/*/*.swp
+
+*.md
