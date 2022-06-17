@@ -1,5 +1,4 @@
 import io
-from typing import Generator
 from django.db import models
 from django.db.models.deletion import CASCADE
 from django.contrib.auth import get_user_model
@@ -94,7 +93,7 @@ class ColumnGenerator:
     def __getitem__(self, item):
         return getattr(self, item)()
 
-    def generate(self, rows, *args) -> Generator[str]:
+    def generate(self, rows):
         names = [x["name"] for x in self.schema.columns.get("schema")]
         types = [x["type"] for x in self.schema.columns.get("schema")]
         sep = self.schema.column_delimiter
