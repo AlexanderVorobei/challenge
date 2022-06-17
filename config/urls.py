@@ -18,11 +18,14 @@ from django.urls import path, include
 from django.contrib.auth.views import LoginView, LogoutView
 import debug_toolbar
 from .settings import DEBUG
+from .views import redirect_view
 
 urlpatterns = [
+    path("", redirect_view, name="index"),
     path("admin/", admin.site.urls),
     path("login/", LoginView.as_view(), name="login"),
     path("logout/", LogoutView.as_view(), name="logout"),
+    path("", include("apps.fake_data.urls", namespace="data")),
 ]
 
 if DEBUG:
