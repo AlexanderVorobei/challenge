@@ -130,7 +130,7 @@ class DataSet(models.Model):
                 buffer.write(line.encode("utf-8"))
             self.file.save(
                 (
-                    f"{0}-{1}-{2}.csv".format(
+                    "{0}-{1}-{2}.csv".format(
                         self.schema.id, self.schema.name, self.created_at
                     )
                 ),

@@ -41,7 +41,7 @@ services:
   celery:
     restart: always
     build: .
-    command: celery -A app worker -l info
+    command: celery -A config.celery.app worker -l info
     env_file: .env
     environment:
       - REDIS_URL=redis://redis:${REDIS_PORT}
