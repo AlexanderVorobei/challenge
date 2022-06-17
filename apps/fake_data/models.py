@@ -1,25 +1,29 @@
 from django.db import models
 from django.db.models.deletion import CASCADE
-from django.core.validators import MaxValueValidator, MinValueValidator
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
 
 class Schema(models.Model):
-    class ColumnSeparator(models.TextChoices):
-        COMMA = "comma [,]"
-        SEMICOLON = "semicolon [;]"
-        COLON = "colon [:]"
+    class Delimiter(models.TextChoices):
+        COMMA = ",", "comma (,)"
+        SEMICOLON = ";", "semicolon (;)"
+        COLON = ":", "colon (:)"
+        TAB = "\t", "tab ( )"
 
-    class StringCharacter(models.TextChoices):
-        DOUBLE_QUOTE = 'double quote ["]'
-        APOSTROPHE = "apostrophe [']"
+    class Quote(models.TextChoices):
+        DOUBLE_QUOTE = 'Double-quote (")'
+        SINGLE_QUOTE = "Single-quote (')"
 
     user = models.ForeignKey(User, on_delete=CASCADE)
     name = models.CharField(max_length=128)
-    column_separator = models.CharField(max_length=16, choices=ColumnSeparator.choices)
-    string_character = models.CharField(max_length=16, choices=StringCharacter.choices)
+    column_separator = models.CharField(
+        max_length=16, choices=Delimiter.choices, default=Delimiter.COMMA
+    )
+    string_character = models.CharField(
+        max_length=16, choices=Quote.choices, default=Quote.SINGLE_QUOTE
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -31,39 +35,26 @@ class Schema(models.Model):
         verbose_name_plural = "schemas"
 
 
-class SchemaColumns(models.Model):
-    class ColumnType(models.TextChoices):
-        FULL_NAME = "Full name"
+class Column(models.Model):
+    class Type(models.TextChoices):
+        FULLNAME = "Full name"
         JOB = "Job"
         EMAIL = "Email"
-        DOMAIN_NAME = "Domain name"
-        COMPANY_NAME = "Company name"
+        DOMAINNAME = "Domain name"
+        COMPANYNAME = "Company name"
         TEXT = "Text"
         INTEGER = "Integer"
         ADDRESS = "Address"
         DATE = "Date"
 
-    schema = models.ForeignKey(Schema, related_name="columns_schema", on_delete=CASCADE)
-    column_name = models.CharField(max_length=128)
-    column_type = models.CharField(max_length=16, choices=ColumnType.choices)
-    column_from = models.PositiveIntegerField(
-        default=0,
-        validators=[
-            MinValueValidator(0),
-            MaxValueValidator(100),
-        ],
-    )
-    column_to = models.PositiveIntegerField(
-        default=0,
-        validators=[
-            MinValueValidator(0),
-            MaxValueValidator(100),
-        ],
-    )
-    column_order = models.PositiveIntegerField(default=0)
+    schema = models.ForeignKey(Schema, related_name="columns", on_delete=CASCADE)
+    name = models.CharField(max_length=128)
+    type = models.CharField(max_length=16, choices=Type.choices, default=Type.TEXT)
+    filter = models.JSONField()
+    order = models.PositiveIntegerField(default=0)
 
     def __str__(self):
-        return f"{self.column_order}:{self.column_name}"
+        return f"{self.order}:{self.name}"
 
     class Meta:
         verbose_name = "column"
@@ -71,15 +62,21 @@ class SchemaColumns(models.Model):
 
 
 class DataSet(models.Model):
+    class Status(models.TextChoices):
+        PROCESSING = "Processing"
+        READY = "Ready"
+
     schema = models.ForeignKey(
         Schema, related_name="datasets_schema", on_delete=models.CASCADE
     )
+    status = models.CharField(
+        max_length=16, choices=Status.choices, default=Status.PROCESSING
+    )
+    rows = models.PositiveBigIntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
-    is_ready = models.BooleanField(default=False)
-    file = models.FileField(null=True, blank=True)
 
     def __str__(self):
-        return f"{self.schema.name} - {self.is_ready}"
+        return f"{self.schema.name} - {self.status}"
 
     class Meta:
         verbose_name = "dataSet"
