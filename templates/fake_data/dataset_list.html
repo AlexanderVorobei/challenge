@@ -1,0 +1,54 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block title %}Data sets{% endblock %}
+
+{% block head %}
+  <link rel="stylesheet" href="{% static 'assets/css/dataset.css' %}">
+{% endblock %}
+
+{% block content %}
+  <div id="main">
+    <div class="header d-flex justify-content-between">
+      <span class="page-name h4">Data sets</span>
+      <form action="{% url 'data:dataset_create' schema.id %}" method="POST" class="d-flex flex-row flex-grow-0">
+        {% csrf_token %}
+        <label for="rows" class="col-sm-1 col-form-label">Rows:</label>
+        <input type="number" min="1" class="form-control form-control-sm" id="rows" name="rows" required>
+        <input class="btn btn-success btn-sm" type="submit" value="Generate data">
+      </form>
+    </div>
+    {% if datasets %}
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Created</th>
+            <th scope="col">Status</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for dataset in datasets %}
+            <tr>
+              <th scope="row">{{ forloop.counter }}</th>
+              <td>{{ dataset.created_at|date:"Y-m-d" }}</td>
+              <td>
+                <span class="cube {% if dataset.file %}green-cube{% else %}gray-cube{% endif %}">
+                  {% if dataset.file %}Ready{% else %}Processing{% endif %}
+                </span>
+              </td>
+              <td>
+                {% if dataset.file %}
+                  <a href="{{ dataset.file.url }}" class="link-primary">Download</a>
+                {% endif %}
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <h2>There are no datasets created yet</h2>
+    {% endif %}
+  </div>
+{% endblock %}

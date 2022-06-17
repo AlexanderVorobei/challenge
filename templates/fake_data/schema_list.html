@@ -1,0 +1,41 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %}Data schemas{% endblock %}
+
+{% block content %}
+<div class="table-responsive">
+  <div class="d-flex justify-content-between pt-3">
+    <h3 class="page_title mt-1">Data schemas</h3>
+    <a class="btn btn-success" href="{% url 'data:create' %}">New schema</a>
+  </div>
+  {% if schemas %}
+  <table class="table table-sm">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Title</th>
+        <th scope="col">Modified</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for schema in schemas %}
+      <tr>
+        <td>{{schema.id}}</td>
+        <td class="text-truncate"><a href="{% url 'data:dataset_list' schema.id %}">{{schema.name}}</a></td>
+        <td class="text-truncate">{{schema.updated_at|date:'Y-m-d'}}</td>
+        <td class="text-truncate">
+          <a class="link-primary" href="{% url 'data:update' schema.id %}">Edit scheme</a>
+          <a class="link-danger" href="{% url 'data:delete' schema.id %}">Delete</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <div class="d-flex justify-content-between pt-3">
+    <h6 class="page_title mt-1">There are no schemas yet</h6>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

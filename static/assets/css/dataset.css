@@ -1,0 +1,20 @@
+#rows-count {
+  width: 30%;
+  margin-left: 1.5rem;
+  margin-right: 1.5rem;
+}
+label[for=rows-count] {
+  margin-left: auto;
+}
+.cube {
+  color: white;
+  padding: 0.375rem 0.3125rem;
+  font-size: 0.75rem;
+  border-radius: 4px;
+}
+.green-cube {
+  background-color: #5CB85C!important;
+}
+.gray-cube {
+  background-color: #999!important;
+}
