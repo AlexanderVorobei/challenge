@@ -129,6 +129,7 @@ STATICFILES_DIRS = ["static/"]
 
 # Media files
 # https://docs.djangoproject.com/en/4.0/topics/files/
+MEDIA_URL = "media/"
 MEDIA_ROOT = "media/"
 
 # Default primary key field type

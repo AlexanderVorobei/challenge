@@ -2,4 +2,4 @@ from django.shortcuts import redirect
 
 
 def redirect_view(request):
-    return redirect("schemas/")
+    return redirect("list/")
